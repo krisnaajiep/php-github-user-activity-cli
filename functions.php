@@ -255,7 +255,7 @@ function help(): string
 
   $help =
     $green . "\nPHP Github User Activity \n" . $reset . PHP_EOL .
-    $yellow . 'Usage:' . $reset . " php index.php <username>\n\n";
+    $yellow . 'Usage:' . $reset . " php github-activity.php <username>\n\n";
 
   return $help;
 }
