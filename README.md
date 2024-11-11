@@ -45,7 +45,6 @@ php github-activity.php krisnaajiep
 
 ```
 Output:
-
 - Pushed 2 commits to krisnaajiep/laravel-expense-tracker-api
 - Created new branch [main] in krisnaajiep/laravel-blogging-platform-api
 - Created new repository krisnaajiep/laravel-blogging-platform-api
