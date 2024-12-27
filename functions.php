@@ -20,12 +20,12 @@ function getGithubEvents(string $username): string|array
   $decode = json_decode($response, true);
 
   if (!$response) {
-    $result = 'cURL Error: ' . curl_error($ch);
+    $result = 'cURL Error: ' . curl_error($ch) . "\n";
   } else {
     $status = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
     $result = $status != 200
-      ? 'Error ' . $status . ' (' . $decode['message'] . ')'
+      ? 'Error ' . $status . ' (' . $decode['message'] . ")\n"
       : $decode;
   }
 
