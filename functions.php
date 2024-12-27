@@ -188,3 +188,16 @@ function watchEvent(array $event): string
 {
   return "Starred " . repoName($event);
 }
+
+function help(): string
+{
+  $yellow = "\033[33m";
+  $green = "\033[32m";
+  $reset = "\033[0m";
+
+  $help =
+    $green . "\nPHP Github User Activity \n" . $reset . PHP_EOL .
+    $yellow . 'Usage:' . $reset . " php github-activity.php <username>\n\n";
+
+  return $help;
+}
