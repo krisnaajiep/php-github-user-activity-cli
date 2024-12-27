@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Fetch the recent activity of the specified GitHub user using the GitHub API
+ */
 function getGithubEvents(string $username): string|array
 {
   $ch = curl_init();
@@ -31,11 +34,17 @@ function getGithubEvents(string $username): string|array
   return $result;
 }
 
+/**
+ * Get repository name from a specific GitHub event
+ */
 function repoName(array $event): string
 {
   return $event['repo']['name'];
 }
 
+/**
+ * Swap "create a repository" and "create the first branch" on the same repository
+ */
 function sortCreateEvent($a, $b): int
 {
   if ($a['type'] == 'CreateEvent' && $b['type'] == 'CreateEvent') {
@@ -52,6 +61,9 @@ function sortCreateEvent($a, $b): int
   return 0;
 }
 
+/**
+ * Generates a descriptive message for a "CommitCommentEvent" GitHub activity.
+ */
 function commitCommentEvent(array $event): string
 {
   $action = $event['payload']['action'];
@@ -61,6 +73,9 @@ function commitCommentEvent(array $event): string
   return "Commit comment $action by $actor on commit '$commit_id' in " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "CreateEvent" GitHub activity.
+ */
 function createEvent(array $event): string
 {
   $ref = $event['payload']['ref'];
@@ -72,6 +87,9 @@ function createEvent(array $event): string
   return "Created new $payloadRefType " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "DeleteEvent" GitHub activity.
+ */
 function deleteEvent(array $event): string
 {
   $ref = $event['payload']['ref'];
@@ -80,6 +98,9 @@ function deleteEvent(array $event): string
   return "Deleted $refType [$ref] in " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "ForkEvent" GitHub activity.
+ */
 function forkEvent(array $event): string
 {
   $forkeeFullName = $event['payload']['forkee']['full_name'];
@@ -87,6 +108,9 @@ function forkEvent(array $event): string
   return "Forked " . repoName($event) . " to $forkeeFullName";
 }
 
+/**
+ * Generates a descriptive message for a "GollumEvent" GitHub activity.
+ */
 function gollumEvent(array $event): string
 {
   $action = ucfirst($event['payload']['pages'][0]['action']);
@@ -102,6 +126,9 @@ function issueCommentEvent(array $event): string
   return "$action comment on issue #$issueNumber in " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "IssueEvent" GitHub activity.
+ */
 function issueEvent(array $event): string
 {
   $action = ucfirst($event['payload']['action']);
@@ -112,6 +139,9 @@ function issueEvent(array $event): string
   return "$payloadAction in " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "MemberEvet" GitHub activity.
+ */
 function memberEvent(array $event): string
 {
   $action = ucfirst($event['payload']['action']);
@@ -125,11 +155,17 @@ function memberEvent(array $event): string
   return "$action $member $message " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "PublicEvent" GitHub activity.
+ */
 function publicEvent(array $event): string
 {
   return "Changed visibility to public for " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "PullRequestEvent" GitHub activity.
+ */
 function pullRequestEvent(array $event): string
 {
   $action = $event['payload']['action'];
@@ -141,6 +177,9 @@ function pullRequestEvent(array $event): string
   return "$payloadAction pull request #$number in " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "PullRequestReviewEvent" GitHub activity.
+ */
 function pullRequestReviewEvent(array $event): string
 {
   $actor = $event['actor']['login'];
@@ -155,6 +194,9 @@ function pullRequestReviewEvent(array $event): string
   return "$opening $action by $actor for pull request #$number in " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "PushEvent" GitHub activity.
+ */
 function pushEvent(array $event): string
 {
   $size = $event['payload']['size'];
@@ -165,6 +207,9 @@ function pushEvent(array $event): string
   return "Pushed $payloadSize to " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "ReleaseEvent" GitHub activity.
+ */
 function releaseEvent(array $event): string
 {
   $action = ucfirst($event['payload']['action']);
@@ -176,6 +221,9 @@ function releaseEvent(array $event): string
   return "$action $release $tagName in " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "SponsoshipEvent" GitHub activity.
+ */
 function sponsorshipEvent(array $event): string
 {
   $action = ucfirst($event['payload']['action']);
@@ -184,11 +232,17 @@ function sponsorshipEvent(array $event): string
   return "$action sponsorship by $actor in " . repoName($event);
 }
 
+/**
+ * Generates a descriptive message for a "WatchEvent" GitHub activity.
+ */
 function watchEvent(array $event): string
 {
   return "Starred " . repoName($event);
 }
 
+/** 
+ * Generate guide for using PHP Github User Activity
+ */
 function help(): string
 {
   $yellow = "\033[33m";
