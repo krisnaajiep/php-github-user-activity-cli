@@ -36,6 +36,22 @@ function repoName(array $event): string
   return $event['repo']['name'];
 }
 
+function sortCreateEvent($a, $b): int
+{
+  if ($a['type'] == 'CreateEvent' && $b['type'] == 'CreateEvent') {
+    $arn = repoName($a);
+    $brn = repoName($b);
+    $aprt = $a['payload']['ref_type'];
+    $bprt = $b['payload']['ref_type'];
+
+    return $arn == $brn && $aprt == 'repository' && $bprt == 'branch'
+      ? 1
+      : 0;
+  }
+
+  return 0;
+}
+
 function commitCommentEvent(array $event): string
 {
   $action = $event['payload']['action'];

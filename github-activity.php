@@ -6,6 +6,8 @@ if (isset($argv[1])) {
   $events = getGithubEvents($argv[1]);
 
   if (is_array($events)) {
+    usort($events, 'sortCreateEvent');
+
     $output = ["Output:"];
 
     foreach ($events as $event) {
